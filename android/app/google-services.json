@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "648434221202",
+    "project_id": "pdf-and-image-toolbox-129a2",
+    "storage_bucket": "pdf-and-image-toolbox-129a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648434221202:android:200d3ca35462eb33a5a64b",
+        "android_client_info": {
+          "package_name": "com.pdfimagetoolbox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgDm-u5xIJf3vo9CHAwd9dxu9KZmr4Grc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
