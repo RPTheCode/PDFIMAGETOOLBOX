@@ -36,7 +36,7 @@ const durationItems = Array.from({ length: 30 }, (_, i) => ({
 
 
 const VideoMakers = () => {
-  const navigation =  useNavigation();
+  const navigation = useNavigation();
   console.log('Videomacker Screen');
   const [images, setImages] = useState([]);
   const [audio, setAudio] = useState(null);
@@ -48,8 +48,8 @@ const VideoMakers = () => {
   const [items, setItems] = useState(durationItems);
 
 
-  
-    useEffect(() => {
+
+  useEffect(() => {
     initNotifications();  // setup notifications on mount
   }, []);
   useEffect(() => {
@@ -175,8 +175,6 @@ const VideoMakers = () => {
   };
 
   const handleMakeVideo = async () => {
-    setIsProcessing(true);
-
     if (images.length === 0) {
       Toast.show({
         type: 'error',
@@ -195,130 +193,135 @@ const VideoMakers = () => {
       return;
     }
 
-    setOutputPath('');
-    setProcessingProgress('Preparing images...');
+    setIsProcessing(true);
+    console.log('🎬 Video creation started 11111');
 
-    try {
+    setTimeout(async () => {
+      try {
+        setProcessingProgress('Preparing images...');
 
 
-      const totalDurationSeconds = Number(value) || 30;
-      const useAudio = audio !== null;
 
-      console.log('🎬 Video creation started');
-      console.log('📸 Images:', images.length);
-      console.log('🎵 Audio:', useAudio ? 'YES' : 'NO');
-      console.log('⏱️ Total Duration:', totalDurationSeconds, 'seconds');
+        const totalDurationSeconds = Number(value) || 30;
+        const useAudio = audio !== null;
 
-      if (images.length === 1) {
-        // SINGLE IMAGE
-        if (useAudio) {
-          setProcessingProgress('Creating video with background music...');
-          console.log('🎬 Creating single image video WITH audio');
-        } else {
-          setProcessingProgress('Creating video from image...');
-          console.log('🎬 Creating single image video WITHOUT audio');
-        }
+        console.log('🎬 Video creation started');
+        console.log('📸 Images:', images.length);
+        console.log('🎵 Audio:', useAudio ? 'YES' : 'NO');
+        console.log('⏱️ Total Duration:', totalDurationSeconds, 'seconds');
 
-        const imagePath = images[0].uri.replace('file://', '');
-
-        let videoPath;
-        if (useAudio) {
-          videoPath = await VideoMakerModule.convertImageToVideoWithAudio(
-            imagePath,
-            audio.uri,
-            totalDurationSeconds
-          );
-        } else {
-          videoPath = await VideoMakerModule.convertImageToVideo(
-            imagePath,
-            totalDurationSeconds
-          );
-        }
-
-        console.log('✅ Video created at:', videoPath);
-
-        if (videoPath) {
-          const exists = await RNFS.exists(videoPath);
-          if (exists) {
-            const fileInfo = await RNFS.stat(videoPath);
-            console.log('📹 Video file size:', fileInfo.size, 'bytes');
-            setOutputPath('file://' + videoPath);
-            // Toast.show({
-            //   type: 'success',
-            //   text1: 'Success',
-            //   text2: useAudio ? 'Video created with background music! 🎵' : 'Video created successfully! 🎬',
-            // });
+        if (images.length === 1) {
+          // SINGLE IMAGE
+          if (useAudio) {
+            setProcessingProgress('Creating video with background music...');
+            console.log('🎬 Creating single image video WITH audio');
           } else {
-            throw new Error('Video file not found at expected path');
+            setProcessingProgress('Creating video from image...');
+            console.log('🎬 Creating single image video WITHOUT audio');
+          }
+
+          const imagePath = images[0].uri.replace('file://', '');
+
+          let videoPath;
+          if (useAudio) {
+            videoPath = await VideoMakerModule.convertImageToVideoWithAudio(
+              imagePath,
+              audio.uri,
+              totalDurationSeconds
+            );
+          } else {
+            videoPath = await VideoMakerModule.convertImageToVideo(
+              imagePath,
+              totalDurationSeconds
+            );
+          }
+
+          console.log('✅ Video created at:', videoPath);
+
+          if (videoPath) {
+            const exists = await RNFS.exists(videoPath);
+            if (exists) {
+              const fileInfo = await RNFS.stat(videoPath);
+              console.log('📹 Video file size:', fileInfo.size, 'bytes');
+              setOutputPath('file://' + videoPath);
+              Toast.show({
+                type: 'success',
+                text1: 'Success',
+                text2: useAudio ? 'Video created with background music! 🎵' : 'Video created successfully! 🎬',
+              });
+            } else {
+              throw new Error('Video file not found at expected path');
+            }
+          } else {
+            throw new Error('Video creation returned empty path');
           }
         } else {
-          throw new Error('Video creation returned empty path');
-        }
-      } else {
-        // MULTIPLE IMAGES - FIXED: Use total duration directly
-        if (useAudio) {
-          setProcessingProgress(`Creating slideshow from ${images.length} images with music...`);
-          console.log('🎬 Creating multi-image slideshow WITH audio');
-        } else {
-          setProcessingProgress(`Creating video from ${images.length} images...`);
-          console.log('🎬 Creating multi-image video WITHOUT audio');
-        }
-
-        const imagePaths = images.map(img => img.uri.replace('file://', ''));
-        console.log('Image Paths:', imagePaths);
-
-        let videoPath;
-        if (useAudio) {
-          // Pass TOTAL duration, not per-image duration
-          videoPath = await VideoMakerModule.convertImagesToVideoWithAudio(
-            imagePaths,
-            audio.uri,
-            totalDurationSeconds  // CHANGED: Pass total duration instead of per-image
-          );
-        } else {
-          // Pass TOTAL duration, not per-image duration
-          videoPath = await VideoMakerModule.convertImagesToVideo(
-            imagePaths,
-            totalDurationSeconds  // CHANGED: Pass total duration instead of per-image
-          );
-        }
-
-        console.log('✅ Video created at:', videoPath);
-
-        if (videoPath) {
-          const exists = await RNFS.exists(videoPath);
-          if (exists) {
-            const fileInfo = await RNFS.stat(videoPath);
-            console.log('📹 Video file size:', fileInfo.size, 'bytes');
-            setOutputPath('file://' + videoPath);
-            // Toast.show({
-            //   type: 'success',
-            //   text1: 'Success',
-            //   text2: useAudio
-            //     ? `Slideshow created with ${images.length} images and background music! 🎵`
-            //     : `Video created from ${images.length} images! Total duration: ${totalDurationSeconds}s 🎬`,
-            // });
+          // MULTIPLE IMAGES - FIXED: Use total duration directly
+          if (useAudio) {
+            setProcessingProgress(`Creating slideshow from ${images.length} images with music...`);
+            console.log('🎬 Creating multi-image slideshow WITH audio');
           } else {
-            throw new Error('Video file not found at expected path');
+            setProcessingProgress(`Creating video from ${images.length} images...`);
+            console.log('🎬 Creating multi-image video WITHOUT audio');
           }
-        } else {
-          throw new Error('Video creation returned empty path');
+
+          const imagePaths = images.map(img => img.uri.replace('file://', ''));
+          console.log('Image Paths:', imagePaths);
+
+          let videoPath;
+          if (useAudio) {
+            // Pass TOTAL duration, not per-image duration
+            videoPath = await VideoMakerModule.convertImagesToVideoWithAudio(
+              imagePaths,
+              audio.uri,
+              totalDurationSeconds  // CHANGED: Pass total duration instead of per-image
+            );
+          } else {
+            // Pass TOTAL duration, not per-image duration
+            videoPath = await VideoMakerModule.convertImagesToVideo(
+              imagePaths,
+              totalDurationSeconds  // CHANGED: Pass total duration instead of per-image
+            );
+          }
+
+          console.log('✅ Video created at:', videoPath);
+
+          if (videoPath) {
+            const exists = await RNFS.exists(videoPath);
+            if (exists) {
+              const fileInfo = await RNFS.stat(videoPath);
+              console.log('📹 Video file size:', fileInfo.size, 'bytes');
+              setOutputPath('file://' + videoPath);
+              Toast.show({
+                type: 'success',
+                text1: 'Success',
+                text2: useAudio
+                  ? `Slideshow created with ${images.length} images and background music! 🎵`
+                  : `Video created from ${images.length} images! Total duration: ${totalDurationSeconds}s 🎬`,
+              });
+            } else {
+              throw new Error('Video file not found at expected path');
+            }
+          } else {
+            throw new Error('Video creation returned empty path');
+          }
         }
+
+        setIsProcessing(false); // Ensure this is false before next step if needed, or remove if relying on finally
+      } catch (e) {
+        console.log('💥 Video creation exception:', e);
+        console.error('💥 Error details:', e);
+        Toast.show({
+          type: 'error',
+          text1: 'Video Creation Failed',
+          text2: `Error: ${e.message}`,
+        });
+      } finally {
+        setIsProcessing(false); // ENSURE state is reset
+        setProcessingProgress('');
       }
-    } catch (e) {
-      console.log('💥 Video creation exception:', e);
-      console.error('💥 Error details:', e);
-      Toast.show({
-        type: 'error',
-        text1: 'Video Creation Failed',
-        text2: `Error: ${e.message}`,
-      });
-    } finally {
-      setIsProcessing(false);
-      setProcessingProgress('');
-    }
+    }, 100);
   };
-
 
   const handleDownloadVideo = async () => {
     if (!outputPath) {
@@ -345,13 +348,13 @@ const VideoMakers = () => {
       console.log('📥 Copying video to:', dest);
 
       await RNFS.copyFile(src, dest);
-       await CameraRoll.saveAsset(dest, { type: 'video', album: 'PDF_IMG_TOOLBOX' });
+      await CameraRoll.saveAsset(dest, { type: 'video', album: 'PDF_IMG_TOOLBOX' });
 
-   await showNotification(
-         'Image Downloaded',
-         'Tap to open in Gallery',
-         dest   // ← path send karna
-       );
+      await showNotification(
+        'Image Downloaded',
+        'Tap to open in Gallery',
+        dest   // ← path send karna
+      );
 
       setAudio(null);
       setImages([]);
@@ -475,9 +478,10 @@ const VideoMakers = () => {
                 disabled={isProcessing}
               >
                 {isProcessing ? (
-                  // <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                  <ActivityIndicator color={Color.Purple} size="large" />
-                  //  </View> 
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <ActivityIndicator color={Color.Purple} size="small" />
+                    <Text style={{ color: Color.Black, fontWeight: '600' }}>Processing...</Text>
+                  </View>
                 ) : (
                   <Text style={styles.makeVideoBtnText}>
                     🎬 Make Video {audio ? 'with Music 🎵' : ''}
@@ -487,13 +491,7 @@ const VideoMakers = () => {
             </>
           )}
 
-          {/* Processing Progress */}
-          {isProcessing && processingProgress && (
-            <View style={styles.processingContainer}>
-              <Text style={styles.processingText}>⏳ {processingProgress}</Text>
-              <Text style={styles.processingSubText}>Please wait, this may take a moment...</Text>
-            </View>
-          )}
+
 
           {/* Video Output */}
           {outputPath && (

@@ -150,12 +150,12 @@ const HomeScreen = () => {
       <Header />
       <View style={styles.cantainer}>
         <View style={styles.textMain}>
-          <Text style={styles.SectionText}>Your Smart Toolbox for</Text>
-          <Text style={styles.SectionText}>PDF and Image Tools</Text>
+          <Text style={styles.SectionText} allowFontScaling={false}>Your Smart Toolbox for</Text>
+          <Text style={styles.SectionText} allowFontScaling={false}>PDF and Image Tools</Text>
         </View>
 
         <View style={{ marginVertical: moderateScale(20), marginBottom: moderateScale(30) }}>
-          <Text style={styles.textDescription}>
+          <Text style={styles.textDescription} allowFontScaling={false}>
             Handle your documents and images effortlessly — Convert, Edit, Resize, Unlock, Protect, and more.
           </Text>
         </View>
@@ -169,7 +169,7 @@ const HomeScreen = () => {
           renderItem={({ item }) => (
             <TouchableOpacity onPress={item.onPress} style={styles.toolBtn}>
               <Image source={item.image} style={styles.toolImage} />
-              <Text style={styles.toolText}>{item.title}</Text>
+              <Text allowFontScaling={false} style={styles.toolText}>{item.title}</Text>
             </TouchableOpacity>
           )}
         />
@@ -205,9 +205,9 @@ const styles = StyleSheet.create({
   textMain: { alignItems: 'center', marginTop: moderateScale(20) },
   SectionText: { textAlign: 'center', fontSize: 20, fontWeight: 800, color: Color.Black },
   textDescription: { fontSize: 14, color: Color.Black, textAlign: 'center' },
-  toolBtn: { flex: 1, flexDirection: 'row', alignItems: 'center',gap:8, padding:14, backgroundColor: Color.DarkBlue, marginHorizontal: 4, borderRadius: 8, justifyContent: 'left' },
-  toolImage: { width: moderateScale(24), height: moderateScale(24),  },
-  toolText: { fontSize: 14, fontWeight: 900, color: Color.White, textAlign: 'center', paddingVertical: 4 },
+  toolBtn: { flex: 1, flexDirection: 'row', alignItems: 'center',gap:8, padding:12, backgroundColor: Color.DarkBlue, marginHorizontal: 4, borderRadius: 8, justifyContent: 'left' },
+  toolImage: { width: moderateScale(24), height: moderateScale(24), paddingRight:6 },
+  toolText: { fontSize: 15, fontWeight: 900, color: Color.White, textAlign: 'center', paddingRight: 4 },
   permissionModal: { backgroundColor: Color.White, padding: 20, borderRadius: 10 },
   welcomeText: { fontSize: 16, textAlign: 'center', color: '#333', fontWeight: '600' },
   settingBtn: { marginTop: 20, backgroundColor: Color.DarkBlue, paddingVertical: 12, borderRadius: 8 },

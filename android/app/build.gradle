@@ -62,7 +62,7 @@ react {
     // extraPackagerArgs = []
 
     /* Hermes Commands */
-    //   The hermes compiler command to run. By default it is 'hermesc'
+    //   The hermes compiler command to run. By default is 'hermesc'
     // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc"
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
@@ -165,18 +165,37 @@ android {
 
 }
 
+// Force use of newer BouncyCastle version from iText, exclude old version from PDFBox
+configurations.all {
+    resolutionStrategy {
+        force 'org.bouncycastle:bcprov-jdk15to18:1.72'
+        force 'org.bouncycastle:bcpkix-jdk15to18:1.72'
+        force 'org.bouncycastle:bcutil-jdk15to18:1.72'
+    }
+    exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+    exclude group: 'org.bouncycastle', module: 'bcpkix-jdk15on'
+    exclude group: 'org.bouncycastle', module: 'bcutil-jdk15on'
+}
+
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     
-    // PDFBox library for PDF encryption (open source)
-    implementation 'org.apache.pdfbox:pdfbox:2.0.27'
-    implementation 'org.apache.pdfbox:fontbox:2.0.27'
+    // PDFBox library for PDF encryption (open source) - exclude old BouncyCastle to avoid conflicts
+    implementation('org.apache.pdfbox:pdfbox:2.0.27') {
+        exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+    }
+    implementation('org.apache.pdfbox:fontbox:2.0.27') {
+        exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+    }
     
     implementation project(':react-native-google-mobile-ads')
     
     // impliment on remove blur
     implementation 'org.opencv:opencv:4.12.0'
+    
+    // iText 7 for proper PDF compression (keeps text as vectors, compresses images)
+    implementation 'com.itextpdf:itext7-core:7.2.5'
 
 
     if (hermesEnabled.toBoolean()) {
@@ -185,12 +204,18 @@ dependencies {
         implementation jscFlavor
     }
     // ✅ Add this line to fix the missing dependency error
-     implementation 'com.tom-roush:pdfbox-android:2.0.27.0'
+    implementation('com.tom-roush:pdfbox-android:2.0.27.0') {
+        exclude group: 'org.bouncycastle', module: 'bcprov-jdk15on'
+    }
 
 }
 
+// Fix for strict debug symbol stripping running out of space
+// We disable it for debug builds to save IO space
+project.tasks.withType(com.android.build.gradle.internal.tasks.StripDebugSymbolsRunnable).configureEach { task ->
+    if (task.name.toLowerCase().contains("debug")) {
+        task.enabled = false
+    }
+}
+
 apply plugin: 'com.google.gms.google-services'
-
-
-
-
