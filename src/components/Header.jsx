@@ -20,7 +20,7 @@ const Header = () => {
       >
         <Image source={MenuImage} style={styles.MenuImage} />
       </TouchableOpacity>
-      <Text style={styles.HeaderText}>PDF & Image Toolbox </Text>
+      <Text style={styles.HeaderText} allowFontScaling={false}>PDF & Image Toolbox </Text>
     </View>
   );
 };

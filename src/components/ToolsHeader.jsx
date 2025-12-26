@@ -15,7 +15,7 @@ const ToolsHeader = ({ title }) => {
       >
         <Image source={LeftArrow} style={styles.backArrow} />
       </TouchableOpacity>
-      <Text style={styles.headerTitle}>{title}</Text>
+      <Text style={styles.headerTitle} allowFontScaling={false}>{title}</Text>
     </View>
   );
 };
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   backArrow: {
     color: 'white',
     fontSize: 22,
-  },
+  }, 
   headerTitle: {
     flex: 1,
     marginRight: 30,

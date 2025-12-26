@@ -666,6 +666,10 @@ public class VideoMakerModule extends ReactContextBaseJavaModule {
             int globalFrameIndex = 0;
             boolean inputEOS = false;
             boolean outputEOS = false;
+            
+            // CACHE VARIABLES
+            int lastImageIndex = -1;
+            byte[] cachedYuvData = null;
 
             Log.d(TAG, "📹 Encoding " + totalFrames + " total frames (distributed across " + imageCount + " images)");
             Log.d(TAG, "⏱️  Total video duration: " + (totalFrames / (float) FRAME_RATE) + " seconds");
@@ -694,21 +698,31 @@ public class VideoMakerModule extends ReactContextBaseJavaModule {
                                 Log.d(TAG, "📸 Processing image " + (imageIndex + 1) + "/" + imagePaths.size());
                             }
 
-                            byte[] yuvData = getYUVDataForImage(imagePaths, imageIndex, width, height);
-                            if (yuvData != null) {
+                            // OPTIMIZATION: Cache the YUV data for the current image
+                            // Only regenerate if we've switched to a different image index
+                            if (imageIndex != lastImageIndex || cachedYuvData == null) {
+                                if (cachedYuvData != null) {
+                                    cachedYuvData = null; // Help GC
+                                }
+                                cachedYuvData = getYUVDataForImage(imagePaths, imageIndex, width, height);
+                                lastImageIndex = imageIndex;
+                                Log.d(TAG, "✅ Cached YUV data for image index: " + imageIndex);
+                            }
+
+                            if (cachedYuvData != null) {
                                 ByteBuffer inputBuffer = encoder.getInputBuffer(inputBufferIndex);
                                 inputBuffer.clear();
                                 long pts = computePresentationTimeUs(globalFrameIndex);
 
-                                if (inputBuffer.remaining() >= yuvData.length) {
-                                    inputBuffer.put(yuvData);
-                                    encoder.queueInputBuffer(inputBufferIndex, 0, yuvData.length, pts, 0);
+                                if (inputBuffer.remaining() >= cachedYuvData.length) {
+                                    inputBuffer.put(cachedYuvData);
+                                    encoder.queueInputBuffer(inputBufferIndex, 0, cachedYuvData.length, pts, 0);
                                 } else {
                                     // chunked write if encoder input buffer is small
                                     int offset = 0;
-                                    while (offset < yuvData.length) {
-                                        int toWrite = Math.min(inputBuffer.remaining(), yuvData.length - offset);
-                                        inputBuffer.put(yuvData, offset, toWrite);
+                                    while (offset < cachedYuvData.length) {
+                                        int toWrite = Math.min(inputBuffer.remaining(), cachedYuvData.length - offset);
+                                        inputBuffer.put(cachedYuvData, offset, toWrite);
                                         encoder.queueInputBuffer(inputBufferIndex, 0, toWrite, pts, 0);
                                         offset += toWrite;
                                         inputBufferIndex = encoder.dequeueInputBuffer(TIMEOUT_US);
