@@ -22,10 +22,11 @@ import Video from 'react-native-video';
 import Toast from 'react-native-toast-message';
 import notifee, { EventType } from '@notifee/react-native';
 import { initNotifications, showNotification } from './Notification';
-import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
 import FileViewer from "react-native-file-viewer";
+import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
+const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
 
 const { SelectSongs, VideoMakerModule } = NativeModules;
 
@@ -382,8 +383,8 @@ const VideoMakers = () => {
       <ToolsHeader title="Video Maker" />
       <View style={{ alignItems: 'center' }}>
         <BannerAd
-          unitId={TestIds.BANNER}
-          size={BannerAdSize.ADAPTIVE_BANNER}
+          unitId={BANNER_AD_ID}
+          size={BannerAdSize.BANNER}
           requestOptions={{ requestNonPersonalizedAdsOnly: true }}
         />
       </View>

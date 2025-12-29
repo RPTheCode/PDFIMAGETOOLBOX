@@ -30,6 +30,7 @@ import Toast from 'react-native-toast-message';
 import { Dowload, ImagePick, OpenA, OpenB, ShareA, ShareB } from '../assets/Image/images';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
+const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
 
 const ResizeImage = () => {
   const [srcUri, setSrcUri] = useState(null);
@@ -374,8 +375,8 @@ const ResizeImage = () => {
       <ToolsHeader title={'Resize Image'} />
       <View style={{ alignItems: 'center' }}>
         <BannerAd
-          unitId={TestIds.BANNER}
-          size={BannerAdSize.ADAPTIVE_BANNER}
+          unitId={BANNER_AD_ID}
+          size={BannerAdSize.BANNER}
           requestOptions={{ requestNonPersonalizedAdsOnly: true }}
         />
       </View>

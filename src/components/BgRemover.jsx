@@ -13,7 +13,7 @@ import { initNotifications, showNotification } from './Notification';
 import { useNavigation } from '@react-navigation/native';
 
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-
+const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
 const injectedJavaScript = `true;`;
 
 const BgRemover = () => {
@@ -84,8 +84,8 @@ const BgRemover = () => {
 
       <View style={{ alignItems: 'center' }}>
         <BannerAd
-          unitId={TestIds.BANNER}
-          size={BannerAdSize.ADAPTIVE_BANNER}
+          unitId={BANNER_AD_ID}
+         size={BannerAdSize.BANNER}
           requestOptions={{ requestNonPersonalizedAdsOnly: true }}
         />
       </View>

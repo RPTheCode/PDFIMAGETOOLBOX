@@ -33,6 +33,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import FileViewer from 'react-native-file-viewer';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
+const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
 
 const ImageToText = () => {
   const navigation = useNavigation();
@@ -311,8 +312,8 @@ const ImageToText = () => {
       <ToolsHeader title={'Image to Text'} />
       <View style={{ alignItems: 'center' }}>
         <BannerAd
-          unitId={TestIds.BANNER}
-          size={BannerAdSize.ADAPTIVE_BANNER}
+          unitId={BANNER_AD_ID}
+          size={BannerAdSize.BANNER}
           requestOptions={{ requestNonPersonalizedAdsOnly: true }}
         />
       </View>

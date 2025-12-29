@@ -12,13 +12,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Share from 'react-native-share'
 import RNFetchBlob from 'rn-fetch-blob'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
-import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-
 import notifee, { EventType } from '@notifee/react-native';
 import { initNotifications, showNotification } from './Notification';
 import { useNavigation } from '@react-navigation/native';
 import FileViewer from "react-native-file-viewer";
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
+const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
 
 const PassPortImage = () => {
   const navigation = useNavigation();
@@ -334,8 +334,8 @@ const PassPortImage = () => {
       <ToolsHeader title={'Passport Photo'} />
       <View style={{ alignItems: 'center' }}>
         <BannerAd
-          unitId={TestIds.BANNER}
-          size={BannerAdSize.ADAPTIVE_BANNER}
+          unitId={BANNER_AD_ID}
+          size={BannerAdSize.BANNER}
           requestOptions={{ requestNonPersonalizedAdsOnly: true }}
         />
       </View>

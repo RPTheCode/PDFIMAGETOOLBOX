@@ -16,7 +16,6 @@ import ToolsHeader from './ToolsHeader';
 import { Color } from '../utils/Theme';
 import Share from 'react-native-share';
 import { NativeModules } from 'react-native';
-import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
 const { PdfResizer, PdfCompressor } = NativeModules; // Add PdfCompressor
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
@@ -25,6 +24,8 @@ import { Dowload, OpenA, OpenB, PdfPick, ShareA, ShareB } from '../assets/Image/
 import notifee, { EventType } from '@notifee/react-native';
 import FileViewer from 'react-native-file-viewer';
 import { initNotifications, showNotification } from './Notification';
+import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
+const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
 
 const ResizeImage = () => {
   console.log('ResizePdf.jsx');
@@ -366,8 +367,8 @@ const ResizeImage = () => {
       <ToolsHeader title={'Resize PDF'} />
       <View style={{ alignItems: 'center' }}>
         <BannerAd
-          unitId={TestIds.BANNER}
-          size={BannerAdSize.ADAPTIVE_BANNER}
+          unitId={BANNER_AD_ID}
+          size={BannerAdSize.BANNER}
           requestOptions={{ requestNonPersonalizedAdsOnly: true }}
         />
       </View>

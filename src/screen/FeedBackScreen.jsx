@@ -23,7 +23,9 @@ import {
   BannerAdSize,
   TestIds,
 } from 'react-native-google-mobile-ads';
-
+const BANNER_AD_ID = __DEV__
+  ? TestIds.BANNER
+  : 'ca-app-pub-6543570376501942/4613719690';
 
 const FeedBackScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -132,7 +134,7 @@ const FeedBackScreen = () => {
         {/* Ads Section  */}
         <View style={{ alignItems: 'center', marginTop: 40 ,}}>
           <BannerAd
-            unitId={TestIds.BANNER}
+            unitId={BANNER_AD_ID}
             size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
             requestOptions={{
               requestNonPersonalizedAdsOnly: true,
