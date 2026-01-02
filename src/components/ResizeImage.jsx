@@ -30,7 +30,7 @@ import Toast from 'react-native-toast-message';
 import { Dowload, ImagePick, OpenA, OpenB, ShareA, ShareB } from '../assets/Image/images';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
+import { BANNER_AD_ID } from "./AdsMain";
 
 const ResizeImage = () => {
   const [srcUri, setSrcUri] = useState(null);

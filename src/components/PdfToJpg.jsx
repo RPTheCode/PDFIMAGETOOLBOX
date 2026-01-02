@@ -23,7 +23,7 @@ import ToolsHeader from './ToolsHeader';
 import Toast from 'react-native-toast-message';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
+import { BANNER_AD_ID } from "./AdsMain";
 
 const PDFToImage = () => {
   const [selectedImages, setSelectedImages] = useState([]);

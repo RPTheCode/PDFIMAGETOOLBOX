@@ -25,7 +25,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import FileViewer from 'react-native-file-viewer';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-const BANNER_AD_ID = 'ca-app-pub-6543570376501942/4613719690';
+import { BANNER_AD_ID } from "./AdsMain";
 
 const ResizeImage = () => {
   console.log('ResizePdf.jsx');

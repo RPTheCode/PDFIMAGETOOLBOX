@@ -1,4 +1,4 @@
-import { StatusBar, Platform,  Text, TouchableOpacity, View, Linking,  } from 'react-native';
+import { StatusBar, Platform, Text, TouchableOpacity, View, Linking, } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigation from './src/navigation/StackNavigation';
@@ -9,14 +9,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import VersionCheck from 'react-native-version-check';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from 'react-native-modal';
+import mobileAds from 'react-native-google-mobile-ads';
 
 const LAST_SHOWN_VERSION_KEY = 'LAST_UPDATE_PROMPT_VERSION';
 
 const App = () => {
-    const [isUpdateVisible, setIsUpdateVisible] = useState(false);
+  const [isUpdateVisible, setIsUpdateVisible] = useState(false);
   const [latestVersion, setLatestVersion] = useState(null);
 
-  
+
   const toastConfig = {
     success: (props) => (
       <BaseToast
@@ -38,7 +39,19 @@ const App = () => {
   };
 
 
-    useEffect(() => {
+  useEffect(() => {
+    mobileAds()
+      .initialize()
+      .then(() => {
+        console.log('✅ AdMob initialized');
+      })
+      .catch(err => {
+        console.log('❌ AdMob init failed', err);
+      });
+  }, []);
+
+
+  useEffect(() => {
     if (Platform.OS !== 'android') return;
 
     const checkUpdate = async () => {
@@ -86,7 +99,7 @@ const App = () => {
     checkUpdate();
   }, []);
 
-    const onUpdateNow = async () => {
+  const onUpdateNow = async () => {
     await AsyncStorage.setItem(LAST_SHOWN_VERSION_KEY, latestVersion);
     Linking.openURL(
       'https://play.google.com/store/apps/details?id=com.pdfimagetoolbox&pcampaignid=web_share'
@@ -98,7 +111,7 @@ const App = () => {
     await AsyncStorage.setItem(LAST_SHOWN_VERSION_KEY, latestVersion);
     setIsUpdateVisible(false);
   };
-  
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#9C27B0' }}>
@@ -116,7 +129,7 @@ const App = () => {
       </NavigationContainer>
       <Toast config={toastConfig} />
 
-            {/* 🔥 UPDATE MODAL */}
+      {/* 🔥 UPDATE MODAL */}
       <Modal isVisible={isUpdateVisible} backdropOpacity={0.6}>
         <View
           style={{

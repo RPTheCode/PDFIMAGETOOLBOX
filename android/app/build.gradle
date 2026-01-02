@@ -100,8 +100,8 @@ android {
         applicationId "com.pdfimagetoolbox"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "1.15"
+        versionCode 18
+        versionName "1.17"
         ndkVersion = "27.1.12297006"
 
         // ✅ Build only for modern 64-bit devices (covers 99%+ of Android phones)
