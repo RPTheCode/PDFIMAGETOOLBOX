@@ -80,11 +80,16 @@ const App = () => {
           return false;
         };
 
-
-        if (isNewerVersion(latest, current)) {
+        if (isNewerVersion(latest, current) && lastPrompted !== latest) {
           setLatestVersion(latest);
           setIsUpdateVisible(true);
         }
+
+
+        // if (isNewerVersion(latest, current)) {
+        //   setLatestVersion(latest);
+        //   setIsUpdateVisible(true);
+        // }
 
         // ✅ show modal only once per version
         // if (current !== latest) {
@@ -130,7 +135,7 @@ const App = () => {
       <Toast config={toastConfig} />
 
       {/* 🔥 UPDATE MODAL */}
-      <Modal isVisible={isUpdateVisible} backdropOpacity={0.6}>
+      <Modal isVisible={isUpdateVisible} backdropOpacity={0.6} useNativeDriver={true}>
         <View
           style={{
             backgroundColor: '#fff',

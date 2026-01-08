@@ -26,15 +26,14 @@ import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { useNavigation } from '@react-navigation/native';
 import FileViewer from "react-native-file-viewer";
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent, INTERSTITIAL_AD_ID } from '../components/AdsMain';
 
 const { SelectSongs, VideoMakerModule } = NativeModules;
 
-const durationItems = Array.from({ length: 30 }, (_, i) => ({
+const durationItems = Array.from({ length: 60 }, (_, i) => ({
   label: `${i + 1} seconds`,
   value: i + 1,
 }));
-
 
 const VideoMakers = () => {
   const navigation = useNavigation();
@@ -382,11 +381,7 @@ const VideoMakers = () => {
     <BaseContainer style={{ flex: 1 }}>
       <ToolsHeader title="Video Maker" />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
       <ScrollView

@@ -25,7 +25,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import FileViewer from 'react-native-file-viewer';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 const ResizeImage = () => {
   console.log('ResizePdf.jsx');
@@ -366,11 +366,7 @@ const ResizeImage = () => {
     <BaseContainer>
       <ToolsHeader title={'Resize PDF'} />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
       <View style={styles.container}>

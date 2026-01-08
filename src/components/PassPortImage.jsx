@@ -18,7 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import FileViewer from "react-native-file-viewer";
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 const PassPortImage = () => {
   const navigation = useNavigation();
@@ -333,11 +333,7 @@ const PassPortImage = () => {
     <BaseContainer>
       <ToolsHeader title={'Passport Photo'} />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
       <View style={styles.container}>

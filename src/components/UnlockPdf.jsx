@@ -24,7 +24,7 @@ import { Dowload, Hide, PdfPick, Show, OpenA, OpenB, ShareA, ShareB, ImagePick }
 import notifee, { EventType } from '@notifee/react-native';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 // Native module access
 const PdfUnlock = NativeModules.PdfUnlock || global.nativePdfUnlockModule;
@@ -325,11 +325,7 @@ const UnlockPdf = () => {
     <BaseContainer>
       <ToolsHeader title={'Unlock Pdf'} />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
 

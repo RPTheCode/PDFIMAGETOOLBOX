@@ -21,7 +21,7 @@ import { getContentUri, imageOpenNotification, initNotifications, showNotificati
 import FileViewer from 'react-native-file-viewer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 // Helper: Generate content:// URI for Android
 
 
@@ -179,11 +179,7 @@ const JpgToPdf = () => {
     <BaseContainer style={{ flex: 1 }}>
       <ToolsHeader title="Image to Pdf" />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }} keyboardVerticalOffset={90}>

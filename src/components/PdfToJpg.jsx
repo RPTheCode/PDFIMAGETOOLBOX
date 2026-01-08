@@ -23,7 +23,7 @@ import ToolsHeader from './ToolsHeader';
 import Toast from 'react-native-toast-message';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 const PDFToImage = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -149,11 +149,7 @@ const PDFToImage = () => {
     <BaseContainer>
       <ToolsHeader title={'PDF to Image'} />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
 

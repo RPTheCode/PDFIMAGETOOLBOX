@@ -12,7 +12,7 @@ import { Dowload, ImagePick, OpenA, OpenB, ShareA, ShareB } from '../assets/Imag
 import Toast from 'react-native-toast-message';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 const DocumetScanner = () => {
   const [scannedImages, setScannedImages] = useState([]);
@@ -158,11 +158,7 @@ const DocumetScanner = () => {
     <BaseContainer>
       <ToolsHeader title={'Documents Scanner'} />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
       <ScrollView>

@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 import { Hide, Show } from '../assets/Image/images';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 const PdfViewer = () => {
     const route = useRoute();
@@ -122,11 +122,7 @@ const PdfViewer = () => {
             <ToolsHeader title="PDF Viewer" />
 
             <View style={{ alignItems: 'center' }}>
-                <BannerAd
-                    unitId={BANNER_AD_ID}
-                    size={BannerAdSize.BANNER}
-                    requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-                />
+                    <BannerAdComponent />
             </View>
 
             {/* <Text style={{ padding: 5 }}>{pdfUri}</Text> */}

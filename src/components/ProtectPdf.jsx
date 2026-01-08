@@ -18,7 +18,7 @@ import Toast from 'react-native-toast-message';
 import notifee, { EventType } from '@notifee/react-native';
 import { initNotifications, showNotification } from './Notification';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 const ProtectPdf = () => {
 
@@ -322,11 +322,7 @@ const ProtectPdf = () => {
     <BaseContainer>
       <ToolsHeader title={'Protect Pdf'} />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
       <View style={styles.container}>

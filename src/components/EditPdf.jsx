@@ -15,7 +15,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import { initNotifications, showNotification } from './Notification';
 import { useNavigation } from '@react-navigation/native';
 import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
-import { BANNER_AD_ID } from "./AdsMain";
+import { BANNER_AD_ID, BannerAdComponent } from '../components/AdsMain';
 
 const EditPdf = () => {
 
@@ -310,11 +310,7 @@ const EditPdf = () => {
     <BaseContainer>
       <ToolsHeader title={'Edit PDF'} />
       <View style={{ alignItems: 'center' }}>
-        <BannerAd
-          unitId={BANNER_AD_ID}
-          size={BannerAdSize.BANNER}
-          requestOptions={{ requestNonPersonalizedAdsOnly: true }}
-        />
+              <BannerAdComponent />
       </View>
 
       <View style={styles.container}>

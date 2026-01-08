@@ -17,13 +17,8 @@ import { getDatabase, ref, push, set } from 'firebase/database';
 import { db, realtimeDb } from '../components/firebase';
 import Toast from 'react-native-toast-message';
 
+import { BannerAdComponent } from '../components/AdsMain';
 
-import {
-  BannerAd,
-  BannerAdSize,
-  TestIds,
-} from 'react-native-google-mobile-ads';
-const BANNER_AD_ID =  'ca-app-pub-6543570376501942/4613719690';
 
 const FeedBackScreen = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -131,16 +126,7 @@ const FeedBackScreen = () => {
 
         {/* Ads Section  */}
         <View style={{ alignItems: 'center', marginTop: 40 ,}}>
-          <BannerAd
-            unitId={BANNER_AD_ID}
-            size={BannerAdSize.INLINE_ADAPTIVE_BANNER}
-            requestOptions={{
-              requestNonPersonalizedAdsOnly: true,
-            }}
-            onAdFailedToLoad={(error) => {
-              console.log('Ad Load Failed: ', error);
-            }}
-          />
+                <BannerAdComponent />
         </View>
 
 
